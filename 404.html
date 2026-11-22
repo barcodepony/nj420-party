@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>NJ 420</title>
+<script>
+	// Old ticket-app links (/ticket/…, /fahrplan, …) all lead to the photo page; a password in the link stays.
+	location.replace(new URL('./', document.querySelector('base')?.href ?? location.origin + (location.hostname.endsWith('github.io') ? '/nj420-party/' : '/')).href + location.hash);
+</script>
+<style>body { background: #070e24; color: #eef2ff; font: 16px system-ui, sans-serif; display: grid; place-items: center; min-height: 100vh; margin: 0; }</style>
+</head>
+<body><p>🚂 Weiter zu den Fotos … <a href="/" style="color:#a9bbe6">hier entlang</a></p></body>
+</html>
