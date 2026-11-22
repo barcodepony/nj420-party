@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NJ 420 · Danke fürs Mitfahren</title>
+<meta name="description" content="Danke fürs Mitfahren im NJ 420 – alle Fotos der Nacht vom 21. auf den 22. November 2026 zum Anschauen und Herunterladen.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#070e24">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚂</text></svg>">
+<style>
+:root {
+	--night-900: #070e24;
+	--night-800: #0b1533;
+	--night-700: #142454;
+	--night-600: #1f3570;
+	--night-400: #4a6bb5;
+	--night-200: #a9bbe6;
+	--text: #eef2ff;
+	--accent: #2f6fe0;
+	--moon: #ffe9a8;
+	--red: #e2002a;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; }
+body {
+	margin: 0;
+	background: var(--night-900);
+	color: var(--text);
+	font: 16px/1.5 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+	-webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+
+/* Hero: a night sky with a train going through it */
+.hero {
+	position: relative;
+	overflow: hidden;
+	min-height: min(92vh, 760px);
+	display: grid;
+	place-items: center;
+	padding: 72px 16px 140px;
+	text-align: center;
+	background: radial-gradient(ellipse at 50% 120%, var(--night-600), var(--night-800) 55%, var(--night-900));
+}
+.stars { position: absolute; inset: 0; pointer-events: none; }
+.stars i {
+	position: absolute; width: 2px; height: 2px; border-radius: 50%; background: #fff;
+	animation: twinkle 3s ease-in-out infinite;
+}
+@keyframes twinkle { 50% { opacity: .2; } }
+.moon {
+	position: absolute; top: 9%; right: 11%; width: 74px; height: 74px; border-radius: 50%;
+	background: var(--moon); box-shadow: 0 0 60px 10px rgba(255, 233, 168, .25);
+}
+.moon::after {
+	content: ''; position: absolute; inset: -4px -18px 8px 18px; border-radius: 50%; background: var(--night-800);
+}
+.hero-text { position: relative; max-width: 760px; }
+.badge {
+	display: inline-block; padding: 4px 12px; border: 1px solid var(--night-400); border-radius: 999px;
+	color: var(--night-200); font-size: .85rem; letter-spacing: .08em; text-transform: uppercase;
+}
+h1 { font-size: clamp(2.2rem, 7vw, 4.4rem); line-height: 1.05; margin: 18px 0 10px; letter-spacing: -.02em; }
+h1 span { display: block; font-size: .42em; font-weight: 500; color: var(--night-200); letter-spacing: 0; margin-top: 10px; }
+.lead { font-size: 1.1rem; color: var(--night-200); max-width: 600px; margin: 18px auto 0; }
+.stats { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 28px 0 0; padding: 0; list-style: none; }
+.stats li { background: rgba(20, 36, 84, .7); border: 1px solid var(--night-600); border-radius: 12px; padding: 10px 16px; }
+.stats b { display: block; font-size: 1.5rem; line-height: 1.1; }
+.stats small { color: var(--night-200); }
+.cta { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 28px; }
+
+.btn {
+	display: inline-flex; align-items: center; gap: 8px; padding: 11px 18px; border-radius: 10px;
+	background: var(--accent); color: #fff; text-decoration: none; font-weight: 600; border: 0; cursor: pointer; font: inherit;
+}
+.btn:hover { filter: brightness(1.1); }
+.btn.ghost { background: transparent; border: 1px solid var(--night-400); }
+.btn small { font-weight: 400; opacity: .8; }
+
+/* The train at the bottom of the hero */
+.track { position: absolute; left: 0; right: 0; bottom: 44px; height: 3px; background: var(--night-600); }
+.train {
+	position: absolute; bottom: 47px; left: 0; display: flex; gap: 6px; align-items: flex-end;
+	animation: drive 16s linear infinite; will-change: transform;
+}
+.car {
+	width: 120px; height: 38px; border-radius: 8px 8px 4px 4px; background: #16245a; border: 1px solid #2b418a; position: relative;
+	display: flex; gap: 8px; align-items: center; justify-content: center;
+}
+.car::before { content: ''; position: absolute; left: 0; right: 0; bottom: 6px; height: 3px; background: var(--red); }
+.car i { width: 16px; height: 12px; border-radius: 3px; background: var(--moon); opacity: .9; }
+.car i:nth-child(2n) { opacity: .45; }
+.car.loco { width: 100px; border-radius: 30px 8px 4px 4px; }
+.car.loco i:first-child { width: 22px; border-radius: 10px 3px 3px 3px; }
+@keyframes drive { from { transform: translateX(100vw); } to { transform: translateX(-120%); } }
+@media (prefers-reduced-motion: reduce) {
+	.train { animation: none; transform: translateX(10vw); }
+	.stars i { animation: none; }
+}
+
+/* Section nav */
+nav {
+	position: sticky; top: 0; z-index: 5; background: rgba(7, 14, 36, .94); border-bottom: 1px solid var(--night-700);
+	overflow-x: auto; scrollbar-width: none;
+}
+nav::-webkit-scrollbar { display: none; }
+nav ul { display: flex; gap: 6px; margin: 0 auto; padding: 10px 16px; list-style: none; max-width: 1200px; width: max-content; min-width: 100%; }
+nav a {
+	display: block; white-space: nowrap; padding: 6px 12px; border-radius: 999px; text-decoration: none;
+	background: var(--night-800); border: 1px solid var(--night-700); font-size: .9rem;
+}
+nav a:hover { border-color: var(--night-400); }
+
+main { max-width: 1200px; margin: 0 auto; padding: 0 16px 60px; }
+section { padding-top: 48px; scroll-margin-top: 56px; }
+.sec-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+h2 { margin: 0; font-size: 1.6rem; }
+.sec-head p { margin: 2px 0 0; color: var(--night-200); }
+
+.grid { display: flex; flex-wrap: wrap; gap: 8px; }
+.grid::after { content: ''; flex-grow: 999; }
+.tile {
+	position: relative; height: 220px; flex-grow: 1; padding: 0; border: 0; border-radius: 10px; overflow: hidden;
+	background: var(--night-700); cursor: zoom-in;
+}
+.tile img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .25s; }
+.tile:hover img { transform: scale(1.04); }
+.tile .cap {
+	position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 10px 8px; text-align: left; font-size: .85rem;
+	background: linear-gradient(transparent, rgba(0, 0, 0, .75)); color: #fff;
+}
+@media (max-width: 600px) { .tile { height: 140px; } .grid { gap: 5px; } }
+
+footer { text-align: center; color: var(--night-200); padding: 40px 16px 60px; border-top: 1px solid var(--night-700); }
+footer p { margin: 6px 0; }
+
+/* Lightbox */
+.lock section { max-width: 520px; margin: 40px auto 0; padding: 28px 20px; text-align: center; background: var(--night-800); border: 1px solid var(--night-700); border-radius: 16px; }
+.lock section[hidden] { display: none; }
+.lock-icon { font-size: 2.4rem; }
+.lock p { color: var(--night-200); margin: 8px 0; }
+.lock-row { display: flex; gap: 8px; margin-top: 16px; }
+.lock-row input { flex: 1; min-width: 0; padding: 11px 14px; border-radius: 10px; border: 1px solid var(--night-600); background: var(--night-900); color: var(--text); font: inherit; }
+.lock-error { color: #ff8a9b !important; min-height: 1.5em; }
+@media (max-width: 480px) { .lock-row { flex-direction: column; } }
+.btn:disabled { opacity: .7; cursor: wait; }
+.tile img:not([src]) { opacity: 0; }
+.lb {
+	position: fixed; inset: 0; z-index: 10; background: #03060f; display: none;
+	grid-template-rows: auto 1fr auto; touch-action: pan-y;
+}
+.lb.open { display: grid; }
+.lb-top, .lb-bottom { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 16px; }
+.lb-top span { color: var(--night-200); font-size: .9rem; }
+.lb-stage { position: relative; display: grid; place-items: center; min-height: 0; padding: 0 8px; }
+.lb-stage img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 6px; user-select: none; }
+.lb-nav {
+	position: absolute; top: 50%; transform: translateY(-50%); width: 48px; height: 48px; border-radius: 50%;
+	background: rgba(20, 36, 84, .8); border: 1px solid var(--night-600); color: #fff; font-size: 1.4rem; cursor: pointer;
+}
+.lb-nav.prev { left: 12px; }
+.lb-nav.next { right: 12px; }
+.icon-btn { background: none; border: 0; color: #fff; font-size: 1.6rem; cursor: pointer; padding: 4px 8px; }
+.lb-bottom .cap { font-weight: 600; }
+@media (max-width: 600px) { .lb-nav { display: none; } }
+</style>
+</head>
+<body>
+
+<header class="hero">
+	<div class="stars" aria-hidden="true"></div>
+	<div class="moon" aria-hidden="true"></div>
+	<div class="hero-text">
+		<span class="badge">NJ 420 · 21./22.11.2026</span>
+		<h1>Danke fürs Mitfahren!<span>Thanks for joining our train ride</span></h1>
+		<p class="lead">
+			Die Nacht ist vorbei, die Fahrkarten sind abgestempelt – aber die Fotos bleiben.
+			Schaut euch um, ladet runter, was euch gefällt, und teilt es mit euren Sitznachbarn.
+		</p>
+		<p class="lead" lang="en">
+			The night is over and every ticket is stamped, but the photos stay. Have a look around, download whatever you like and share it with your seat neighbours.
+		</p>
+		<ul class="stats" id="stats"></ul>
+		<div class="cta">
+			<a class="btn" href="#fotos">Zu den Fotos ↓</a>
+			<button class="btn ghost" id="all-zip" hidden>⬇ Alle Fotos (ZIP) <small></small></button>
+		</div>
+	</div>
+	<div class="track" aria-hidden="true"></div>
+	<div class="train" aria-hidden="true">
+		<div class="car loco"><i></i><i></i></div>
+		<div class="car"><i></i><i></i><i></i><i></i></div>
+		<div class="car"><i></i><i></i><i></i><i></i></div>
+		<div class="car"><i></i><i></i><i></i><i></i></div>
+		<div class="car"><i></i><i></i><i></i><i></i></div>
+	</div>
+</header>
+
+<nav aria-label="Abschnitte" hidden><ul id="nav"></ul></nav>
+<main id="fotos">
+	<form class="lock" id="lock-form">
+		<section id="lock">
+			<div class="lock-icon" aria-hidden="true">🔒</div>
+			<h2>Fotos entsperren</h2>
+			<p>Die Fotos sind verschlüsselt. Gib das Passwort ein, das du von uns bekommen hast – oder öffne den Link mit dem Passwort.</p>
+			<p lang="en">The photos are encrypted. Enter the password you got from us, or open the link that contains it.</p>
+			<div class="lock-row">
+				<input id="lock-pw" type="password" autocomplete="current-password" placeholder="Passwort · password" required>
+				<button class="btn" id="lock-btn">Fotos entsperren</button>
+			</div>
+			<p class="lock-error" id="lock-error" role="alert"></p>
+		</section>
+	</form>
+</main>
+
+<footer>
+	<p>🚂 Nächster Halt: das nächste Mal. Danke, dass ihr dabei wart!</p>
+	<p lang="en">Next stop: next time. Thanks for being part of it!</p>
+	<p><small>Ein Foto von dir soll weg? Sag uns kurz Bescheid. · Want a photo of you removed? Just let us know.</small></p>
+</footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Foto">
+	<div class="lb-top">
+		<span id="lb-count"></span>
+		<button class="icon-btn" id="lb-close" aria-label="Schließen">✕</button>
+	</div>
+	<div class="lb-stage">
+		<img id="lb-img" alt="">
+		<button class="lb-nav prev" id="lb-prev" aria-label="Vorheriges Foto">‹</button>
+		<button class="lb-nav next" id="lb-next" aria-label="Nächstes Foto">›</button>
+	</div>
+	<div class="lb-bottom">
+		<span class="cap" id="lb-cap"></span>
+		<button class="btn" id="lb-dl">⬇ Original</button>
+	</div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const mb = (b) => `${Math.round(b / 1e6)} MB`;
+const unb64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+
+// Stars
+const stars = document.querySelector('.stars');
+for (let i = 0; i < 90; i++) {
+	const s = document.createElement('i');
+	s.style.left = `${Math.random() * 100}%`;
+	s.style.top = `${Math.random() * 70}%`;
+	s.style.animationDelay = `${Math.random() * 3}s`;
+	s.style.opacity = (0.3 + Math.random() * 0.7).toFixed(2);
+	stars.append(s);
+}
+
+// ── Decryption: the password unwraps the key, the key opens every file (12-byte IV, then AES-GCM).
+let key = null;
+async function unlock(password) {
+	const meta = await (await fetch('key.json')).json();
+	const base = await crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveKey']);
+	const kek = await crypto.subtle.deriveKey(
+		{ name: 'PBKDF2', hash: 'SHA-256', salt: unb64(meta.salt), iterations: meta.iter },
+		base, { name: 'AES-GCM', length: 256 }, false, ['decrypt']
+	);
+	const raw = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: unb64(meta.iv) }, kek, unb64(meta.key));
+	key = await crypto.subtle.importKey('raw', raw, 'AES-GCM', false, ['decrypt']);
+	return JSON.parse(new TextDecoder().decode(await open(meta.manifest)));
+}
+async function open(name) {
+	const buf = await (await fetch(`data/${name}.bin`)).arrayBuffer();
+	return crypto.subtle.decrypt({ name: 'AES-GCM', iv: new Uint8Array(buf, 0, 12) }, key, new Uint8Array(buf, 12));
+}
+// Decrypted images as object URLs, a few at a time.
+const urls = new Map();
+let running = 0;
+const queue = [];
+function imageUrl(name) {
+	if (!urls.has(name)) {
+		urls.set(name, new Promise((resolve, reject) => queue.push({ name, resolve, reject })));
+		pump();
+	}
+	return urls.get(name);
+}
+function pump() {
+	while (running < 6 && queue.length) {
+		const job = queue.shift();
+		running++;
+		open(job.name)
+			.then((b) => job.resolve(URL.createObjectURL(new Blob([b], { type: 'image/jpeg' }))), job.reject)
+			.finally(() => { running--; pump(); });
+	}
+}
+
+// ── A ZIP (stored, no compression – JPEGs don't shrink) built in the browser.
+const CRC = new Uint32Array(256).map((_, n) => { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1; return c >>> 0; });
+function crc32(b) { let c = ~0; for (let i = 0; i < b.length; i++) c = CRC[(c ^ b[i]) & 255] ^ (c >>> 8); return ~c >>> 0; }
+// 21.11.2026, 23:00 – the night of the ride.
+const DOS_DATE = ((2026 - 1980) << 9) | (11 << 5) | 21, DOS_TIME = 23 << 11;
+function zip(files) {
+	const parts = [], central = [];
+	let offset = 0;
+	for (const { name, data } of files) {
+		const n = new TextEncoder().encode(name), crc = crc32(data);
+		const h = new DataView(new ArrayBuffer(30));
+		h.setUint32(0, 0x04034b50, true); h.setUint16(4, 20, true); h.setUint16(8, 0, true); h.setUint16(10, DOS_TIME, true); h.setUint16(12, DOS_DATE, true);
+		h.setUint32(14, crc, true); h.setUint32(18, data.length, true); h.setUint32(22, data.length, true); h.setUint16(26, n.length, true);
+		parts.push(h, n, data);
+		const c = new DataView(new ArrayBuffer(46));
+		c.setUint32(0, 0x02014b50, true); c.setUint16(4, 20, true); c.setUint16(6, 20, true); c.setUint16(12, DOS_TIME, true); c.setUint16(14, DOS_DATE, true);
+		c.setUint32(16, crc, true); c.setUint32(20, data.length, true); c.setUint32(24, data.length, true); c.setUint16(28, n.length, true);
+		c.setUint32(42, offset, true);
+		central.push(c, n);
+		offset += 30 + n.length + data.length;
+	}
+	const size = central.reduce((s, p) => s + p.byteLength, 0);
+	const e = new DataView(new ArrayBuffer(22));
+	e.setUint32(0, 0x06054b50, true); e.setUint16(8, files.length, true); e.setUint16(10, files.length, true);
+	e.setUint32(12, size, true); e.setUint32(16, offset, true);
+	return new Blob([...parts, ...central, e], { type: 'application/zip' });
+}
+function save(blob, name) {
+	const a = document.createElement('a');
+	a.href = URL.createObjectURL(blob);
+	a.download = name;
+	document.body.append(a);
+	a.click();
+	a.remove();
+	setTimeout(() => URL.revokeObjectURL(a.href), 60_000);
+}
+async function download(btn, photos, name) {
+	if (btn.disabled) return;
+	btn.disabled = true;
+	const label = btn.innerHTML;
+	try {
+		const files = [];
+		for (const p of photos) {
+			btn.textContent = `Entschlüssle ${files.length + 1}/${photos.length} …`;
+			files.push({ name: `${name}/${p.sec.slug}-${p.f}`.replace(`${p.sec.slug}-${p.sec.slug}`, p.sec.slug), data: new Uint8Array(await open(p.o)) });
+		}
+		save(zip(files), `${name}.zip`);
+	} catch (e) {
+		alert('Download fehlgeschlagen – bitte nochmal versuchen.');
+	} finally {
+		btn.innerHTML = label;
+		btn.disabled = false;
+	}
+}
+
+// ── Unlock: the password from the link (#k=…, never sent to the server), from last time, or typed in.
+let flat = [];
+let cur = 0;
+async function tryUnlock(password, quiet) {
+	$('lock-error').textContent = '';
+	$('lock-btn').disabled = true;
+	$('lock-btn').textContent = 'Entsperre …';
+	try {
+		const data = await unlock(password);
+		try { localStorage.setItem('nj420-k', password); } catch {}
+		if (location.hash.startsWith('#k=')) history.replaceState(null, '', location.pathname);
+		$('lock').hidden = true;
+		render(data);
+	} catch (e) {
+		key = null;
+		if (!quiet) $('lock-error').textContent = 'Falsches Passwort · Wrong password';
+		try { localStorage.removeItem('nj420-k'); } catch {}
+	} finally {
+		$('lock-btn').disabled = false;
+		$('lock-btn').textContent = 'Fotos entsperren';
+	}
+}
+$('lock-form').addEventListener('submit', (e) => { e.preventDefault(); tryUnlock($('lock-pw').value.trim()); });
+{
+	const fromLink = location.hash.match(/^#k=(.+)$/)?.[1];
+	let saved = null;
+	try { saved = localStorage.getItem('nj420-k'); } catch {}
+	if (fromLink) tryUnlock(decodeURIComponent(fromLink));
+	else if (saved) tryUnlock(saved, true);
+}
+
+function render(data) {
+	const total = data.sections.reduce((n, s) => n + s.photos.length, 0);
+	$('stats').innerHTML = `
+		<li><b>${total}</b><small>Fotos</small></li>
+		<li><b>3</b><small>Gruppenreise-Halte</small></li>
+		<li><b>${data.sections[0].photos.length}</b><small>Kostüme</small></li>
+		<li><b>1</b><small>sehr lange Nacht</small></li>`;
+	const main = $('fotos');
+	const lazy = new IntersectionObserver((entries) => {
+		for (const en of entries) {
+			if (!en.isIntersecting) continue;
+			lazy.unobserve(en.target);
+			const img = en.target.querySelector('img');
+			imageUrl(img.dataset.k).then((u) => { img.src = u; });
+		}
+	}, { rootMargin: '400px' });
+	for (const sec of data.sections) {
+		$('nav').insertAdjacentHTML('beforeend', `<li><a href="#${sec.slug}">${sec.title}</a></li>`);
+		const el = document.createElement('section');
+		el.id = sec.slug;
+		const size = sec.photos.reduce((s, p) => s + p.s, 0);
+		el.innerHTML = `
+			<div class="sec-head">
+				<div><h2>${sec.title}</h2><p>${sec.sub} · ${sec.photos.length} Fotos</p></div>
+				<button class="btn ghost zip">⬇ ZIP <small>${mb(size)}</small></button>
+			</div>
+			<div class="grid"></div>`;
+		const grid = el.querySelector('.grid');
+		const mine = [];
+		for (const p of sec.photos) {
+			const i = flat.length;
+			const item = { ...p, sec };
+			flat.push(item);
+			mine.push(item);
+			const b = document.createElement('button');
+			b.className = 'tile';
+			b.style.flexBasis = `${p.r * 220}px`;
+			b.style.aspectRatio = p.r;
+			b.innerHTML = `<img data-k="${p.th}" alt="${p.c ? `„${p.c}“` : `${sec.title} ${p.t}`}">` +
+				(p.c ? `<span class="cap">„${p.c}“</span>` : '');
+			b.onclick = () => openLb(i);
+			grid.append(b);
+			lazy.observe(b);
+		}
+		el.querySelector('.zip').onclick = (e) => download(e.currentTarget, mine, `nj420-${sec.slug}`);
+		main.append(el);
+	}
+	const all = $('all-zip');
+	all.hidden = false;
+	all.querySelector('small').textContent = mb(flat.reduce((s, p) => s + p.s, 0));
+	all.onclick = () => download(all, flat, 'nj420-fotos');
+	$('nav').parentElement.hidden = false;
+}
+
+function show(i) {
+	cur = (i + flat.length) % flat.length;
+	const p = flat[cur];
+	const img = $('lb-img');
+	img.removeAttribute('src');
+	imageUrl(p.v).then((u) => { if (flat[cur] === p) img.src = u; });
+	img.alt = p.c || p.sec.title;
+	$('lb-cap').textContent = p.c ? `„${p.c}“` : p.sec.title.replace(/^\S+\s/, '');
+	$('lb-count').textContent = `${p.sec.title} · ${p.t} Uhr · ${cur + 1}/${flat.length}`;
+	for (const d of [-1, 1]) imageUrl(flat[(cur + d + flat.length) % flat.length].v);
+}
+async function downloadOne() {
+	const p = flat[cur], btn = $('lb-dl');
+	btn.disabled = true;
+	try { save(new Blob([await open(p.o)], { type: 'image/jpeg' }), `nj420-${p.f}`); } finally { btn.disabled = false; }
+}
+function openLb(i) { $('lb').classList.add('open'); document.body.style.overflow = 'hidden'; show(i); }
+function closeLb() { $('lb').classList.remove('open'); document.body.style.overflow = ''; }
+$('lb-dl').onclick = downloadOne;
+$('lb-close').onclick = closeLb;
+$('lb-prev').onclick = () => show(cur - 1);
+$('lb-next').onclick = () => show(cur + 1);
+$('lb').addEventListener('click', (e) => { if (e.target.classList.contains('lb-stage')) closeLb(); });
+addEventListener('keydown', (e) => {
+	if (!$('lb').classList.contains('open')) return;
+	if (e.key === 'Escape') closeLb();
+	if (e.key === 'ArrowLeft') show(cur - 1);
+	if (e.key === 'ArrowRight') show(cur + 1);
+});
+let x0 = null;
+$('lb').addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+$('lb').addEventListener('touchend', (e) => {
+	if (x0 === null) return;
+	const dx = e.changedTouches[0].clientX - x0;
+	if (Math.abs(dx) > 50) show(cur + (dx < 0 ? 1 : -1));
+	x0 = null;
+});
+</script>
+</body>
+</html>
