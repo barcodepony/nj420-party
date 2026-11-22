@@ -95,6 +95,8 @@ h1 span { display: block; font-size: .42em; font-weight: 500; color: var(--night
 .car.loco { width: 100px; border-radius: 30px 8px 4px 4px; }
 .car.loco i:first-child { width: 22px; border-radius: 10px 3px 3px 3px; }
 @keyframes drive { from { transform: translateX(100vw); } to { transform: translateX(-120%); } }
+/* Someone late, running after the train (the Flappy Train runner) */
+.chaser { position: absolute; left: 0; bottom: 47px; width: 100%; height: 120px; pointer-events: none; }
 @media (prefers-reduced-motion: reduce) {
 	.train { animation: none; transform: translateX(10vw); }
 	.stars i { animation: none; }
@@ -198,6 +200,7 @@ footer p { margin: 6px 0; }
 		</div>
 	</div>
 	<div class="track" aria-hidden="true"></div>
+	<canvas class="chaser" id="chaser" aria-hidden="true"></canvas>
 	<div class="train" aria-hidden="true">
 		<div class="car loco"><i></i><i></i></div>
 		<div class="car"><i></i><i></i><i></i><i></i></div>
@@ -267,6 +270,81 @@ for (let i = 0; i < 90; i++) {
 	s.style.animationDelay = `${Math.random() * 3}s`;
 	s.style.opacity = (0.3 + Math.random() * 0.7).toFixed(2);
 	stars.append(s);
+}
+
+// ── The runner from Flappy Train, late, chasing the last car (he never quite makes it).
+{
+	const canvas = $('chaser');
+	const g = canvas.getContext('2d');
+	const train = document.querySelector('.train');
+	const head = new Image();
+	head.src = 'kopf.png';
+	const TAU = Math.PI * 2;
+	const still = matchMedia('(prefers-reduced-motion: reduce)');
+	let stride = 0, last = performance.now();
+	const limb = (x, y, a1, a2, l1, l2, width, color) => {
+		const kx = x + Math.sin(a1) * l1, ky = y + Math.cos(a1) * l1;
+		const fx = kx + Math.sin(a2) * l2, fy = ky + Math.cos(a2) * l2;
+		g.strokeStyle = color; g.lineWidth = width; g.lineCap = 'round'; g.lineJoin = 'round';
+		g.beginPath(); g.moveTo(x, y); g.lineTo(kx, ky); g.lineTo(fx, fy); g.stroke();
+		return [fx, fy];
+	};
+	function runner(x, feet, p, hop) {
+		const air = hop > 2;
+		g.save();
+		g.translate(x, feet - hop);
+		g.scale(-1, 1); // the train goes left
+		const leg = (phase, near) => {
+			let thigh = 0.8 * Math.sin(phase);
+			let shin = thigh - (0.25 + 0.85 * (1 - Math.cos(phase)) * 0.5);
+			if (air) [thigh, shin] = near ? [1.0, 0.75] : [-0.7, -1.7];
+			const [fx, fy] = limb(0, -24, thigh, shin, 12.5, 12.5, 5.5, near ? '#5a7bc4' : '#3e5a9c');
+			g.fillStyle = near ? '#f2f2f2' : '#c9c9c9';
+			g.beginPath(); g.ellipse(fx + 3, fy - 1, 4.5, 2.5, 0, 0, TAU); g.fill();
+		};
+		const arm = (phase, near) => {
+			const upper = air ? (near ? -0.9 : 1.1) : -0.8 * Math.sin(phase);
+			limb(3, -39, upper, upper + 1.3, 9, 9, 4, near ? '#f1c27d' : '#d9a865');
+		};
+		arm(p, false);
+		leg(p + Math.PI, false);
+		g.strokeStyle = '#e2002a'; g.lineWidth = 10; g.lineCap = 'round';
+		g.beginPath(); g.moveTo(0, -24); g.lineTo(3, -40); g.stroke();
+		leg(p, true);
+		arm(p + Math.PI, true);
+		// The big head, nodding along – not mirrored, it looks at us.
+		g.translate(5, -56);
+		g.scale(-1, 1);
+		g.rotate(air ? 0.12 : -Math.sin(p * 2) * 0.06);
+		if (head.complete && head.naturalWidth) {
+			const hh = 40, hw = hh * head.naturalWidth / head.naturalHeight;
+			g.drawImage(head, -hw / 2, -hh / 2, hw, hh);
+		}
+		g.restore();
+	}
+	function frame(now) {
+		const dt = Math.min(0.05, (now - last) / 1000);
+		last = now;
+		const dpr = Math.min(2, devicePixelRatio || 1);
+		const w = canvas.clientWidth, h = canvas.clientHeight;
+		if (canvas.width !== Math.round(w * dpr) || canvas.height !== Math.round(h * dpr)) {
+			canvas.width = Math.round(w * dpr);
+			canvas.height = Math.round(h * dpr);
+		}
+		g.setTransform(dpr, 0, 0, dpr, 0, 0);
+		g.clearRect(0, 0, w, h);
+		if (!still.matches) {
+			const t = now / 1000;
+			const tail = train.getBoundingClientRect().right - canvas.getBoundingClientRect().left;
+			// He nearly catches up, then falls back again; now and then a desperate jump.
+			const gap = 46 + 34 * (0.5 + 0.5 * Math.sin(t * 0.9));
+			stride += dt * 2.6;
+			const jump = (t % 7) < 0.55 ? Math.sin(((t % 7) / 0.55) * Math.PI) * 26 : 0;
+			runner(tail + gap, h, stride * TAU, jump);
+		}
+		requestAnimationFrame(frame);
+	}
+	requestAnimationFrame(frame);
 }
 
 // ── Decryption: the password unwraps the key, the key opens every file (12-byte IV, then AES-GCM).
