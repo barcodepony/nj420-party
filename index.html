@@ -182,7 +182,13 @@ footer p { margin: 6px 0; }
 		<p class="lead" lang="en">
 			The night is over and every ticket is stamped, but the photos stay. Have a look around, download whatever you like and share it with your seat neighbours.
 		</p>
-		<ul class="stats" id="stats"></ul>
+		<ul class="stats" id="stats">
+			<li><b>55</b><small>Fahrkarten entwertet</small></li>
+			<li><b>2.299</b><small>Vorteilspunkte gesammelt</small></li>
+			<li><b>149</b><small>Fotos</small></li>
+			<li><b>20</b><small>Kostüme</small></li>
+			<li><b>1</b><small>sehr lange Nacht</small></li>
+		</ul>
 		<div class="cta">
 			<a class="btn" href="#fotos">Zu den Fotos ↓</a>
 			<button class="btn ghost" id="all-zip" hidden>⬇ Alle Fotos (ZIP) <small></small></button>
@@ -378,12 +384,6 @@ $('lock-form').addEventListener('submit', (e) => { e.preventDefault(); tryUnlock
 }
 
 function render(data) {
-	const total = data.sections.reduce((n, s) => n + s.photos.length, 0);
-	$('stats').innerHTML = `
-		<li><b>${total}</b><small>Fotos</small></li>
-		<li><b>3</b><small>Gruppenreise-Halte</small></li>
-		<li><b>${data.sections[0].photos.length}</b><small>Kostüme</small></li>
-		<li><b>1</b><small>sehr lange Nacht</small></li>`;
 	const main = $('fotos');
 	const lazy = new IntersectionObserver((entries) => {
 		for (const en of entries) {
