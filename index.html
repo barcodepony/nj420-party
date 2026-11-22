@@ -280,6 +280,7 @@ for (let i = 0; i < 90; i++) {
 	const head = new Image();
 	head.src = 'kopf.png';
 	const TAU = Math.PI * 2;
+	const SIZE = 0.4;
 	const still = matchMedia('(prefers-reduced-motion: reduce)');
 	let stride = 0, last = performance.now();
 	const limb = (x, y, a1, a2, l1, l2, width, color) => {
@@ -293,7 +294,7 @@ for (let i = 0; i < 90; i++) {
 		const air = hop > 2;
 		g.save();
 		g.translate(x, feet - hop);
-		g.scale(-1, 1); // the train goes left
+		g.scale(-SIZE, SIZE); // small, and the train goes left
 		const leg = (phase, near) => {
 			let thigh = 0.8 * Math.sin(phase);
 			let shin = thigh - (0.25 + 0.85 * (1 - Math.cos(phase)) * 0.5);
@@ -337,9 +338,9 @@ for (let i = 0; i < 90; i++) {
 			const t = now / 1000;
 			const tail = train.getBoundingClientRect().right - canvas.getBoundingClientRect().left;
 			// He nearly catches up, then falls back again; now and then a desperate jump.
-			const gap = 46 + 34 * (0.5 + 0.5 * Math.sin(t * 0.9));
+			const gap = 138 + 102 * (0.5 + 0.5 * Math.sin(t * 0.9));
 			stride += dt * 2.6;
-			const jump = (t % 7) < 0.55 ? Math.sin(((t % 7) / 0.55) * Math.PI) * 26 : 0;
+			const jump = (t % 7) < 0.55 ? Math.sin(((t % 7) / 0.55) * Math.PI) * 26 * SIZE : 0;
 			runner(tail + gap, h, stride * TAU, jump);
 		}
 		requestAnimationFrame(frame);
