@@ -144,6 +144,8 @@ footer p { margin: 6px 0; }
 .lock-row { display: flex; gap: 8px; margin-top: 16px; }
 .lock-row input { flex: 1; min-width: 0; padding: 11px 14px; border-radius: 10px; border: 1px solid var(--night-600); background: var(--night-900); color: var(--text); font: inherit; }
 .lock-error { color: #ff8a9b !important; min-height: 1.5em; }
+.lock .small { font-size: .85rem; }
+.until { margin: 22px 0 0; color: var(--moon); }
 @media (max-width: 480px) { .lock-row { flex-direction: column; } }
 .btn:disabled { opacity: .7; cursor: wait; }
 .tile img:not([src]) { opacity: 0; }
@@ -176,11 +178,11 @@ footer p { margin: 6px 0; }
 		<span class="badge">NJ 420 · 21./22.11.2026</span>
 		<h1>Danke fürs Mitfahren!<span>Thanks for joining our train ride</span></h1>
 		<p class="lead">
-			Die Nacht ist vorbei, die Fahrkarten sind abgestempelt – aber die Fotos bleiben.
+			Die Nacht ist vorbei, die Fahrkarten sind abgestempelt – aber die Fotos bleiben noch bis Silvester.
 			Schaut euch um, ladet runter, was euch gefällt, und teilt es mit euren Sitznachbarn.
 		</p>
 		<p class="lead" lang="en">
-			The night is over and every ticket is stamped, but the photos stay. Have a look around, download whatever you like and share it with your seat neighbours.
+			The night is over and every ticket is stamped, but the photos stay until New Year's Eve. Have a look around, download whatever you like and share it with your seat neighbours.
 		</p>
 		<ul class="stats" id="stats">
 			<li><b>55</b><small>Fahrkarten entwertet</small></li>
@@ -189,6 +191,7 @@ footer p { margin: 6px 0; }
 			<li><b>20</b><small>Kostüme</small></li>
 			<li><b>1</b><small>sehr lange Nacht</small></li>
 		</ul>
+		<p class="until">📅 Die Fotos sind bis <b>31.12.2026</b> online. · Available until <b>31 December 2026</b>.</p>
 		<div class="cta">
 			<a class="btn" href="#fotos">Zu den Fotos ↓</a>
 			<button class="btn ghost" id="all-zip" hidden>⬇ Alle Fotos (ZIP) <small></small></button>
@@ -217,6 +220,13 @@ footer p { margin: 6px 0; }
 				<button class="btn" id="lock-btn">Fotos entsperren</button>
 			</div>
 			<p class="lock-error" id="lock-error" role="alert"></p>
+			<p class="small">Noch bis 31.12.2026 – ladet euch eure Lieblingsfotos vorher herunter. · Until 31.12.2026, so download your favourites before then.</p>
+		</section>
+		<section id="expired" hidden>
+			<div class="lock-icon" aria-hidden="true">🌅</div>
+			<h2>Dieser Zug ist abgefahren</h2>
+			<p>Die Fotos waren bis 31.12.2026 online und sind jetzt nicht mehr verfügbar. Danke, dass ihr dabei wart!</p>
+			<p lang="en">This train has left: the photos were available until 31 December 2026. Thanks for being part of it!</p>
 		</section>
 	</form>
 </main>
@@ -355,7 +365,19 @@ async function download(btn, photos, name) {
 // ── Unlock: the password from the link (#k=…, never sent to the server), from last time, or typed in.
 let flat = [];
 let cur = 0;
+// Logins end with 31.12.2026 (Vienna time).
+const EXPIRES = new Date('2027-01-01T00:00:00+01:00');
+function expired() {
+	if (Date.now() < EXPIRES.getTime()) return false;
+	try { localStorage.removeItem('nj420-k'); } catch {}
+	if (location.hash.startsWith('#k=')) history.replaceState(null, '', location.pathname);
+	$('lock').hidden = true;
+	$('expired').hidden = false;
+	document.querySelector('.until').hidden = true;
+	return true;
+}
 async function tryUnlock(password, quiet) {
+	if (expired()) return;
 	$('lock-error').textContent = '';
 	$('lock-btn').disabled = true;
 	$('lock-btn').textContent = 'Entsperre …';
@@ -375,7 +397,7 @@ async function tryUnlock(password, quiet) {
 	}
 }
 $('lock-form').addEventListener('submit', (e) => { e.preventDefault(); tryUnlock($('lock-pw').value.trim()); });
-{
+if (!expired()) {
 	const fromLink = location.hash.match(/^#k=(.+)$/)?.[1];
 	let saved = null;
 	try { saved = localStorage.getItem('nj420-k'); } catch {}
