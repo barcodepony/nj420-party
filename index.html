@@ -40,7 +40,7 @@ a { color: inherit; }
 	min-height: min(92vh, 760px);
 	display: grid;
 	place-items: center;
-	padding: 72px 16px 140px;
+	padding: 72px 16px 196px;
 	text-align: center;
 	background: radial-gradient(ellipse at 50% 120%, var(--night-600), var(--night-800) 55%, var(--night-900));
 }
@@ -95,6 +95,41 @@ h1 span { display: block; font-size: .42em; font-weight: 500; color: var(--night
 .car.loco { width: 100px; border-radius: 30px 8px 4px 4px; }
 .car.loco i:first-child { width: 22px; border-radius: 10px 3px 3px 3px; }
 @keyframes drive { from { transform: translateX(100vw); } to { transform: translateX(-120%); } }
+/* The three Gruppenreise stops as platform boards, like the departure board in Flappy Train */
+.stops {
+	position: absolute; left: 0; right: 0; bottom: 47px; display: flex; justify-content: space-around;
+	padding: 0 4%; pointer-events: none;
+}
+.stop { position: relative; height: 112px; display: flex; flex-direction: column; align-items: center; }
+.stop::before, .stop::after {
+	content: ''; position: absolute; bottom: 0; width: 4px; height: 70px; background: #4b556b;
+}
+.stop::before { left: 12%; }
+.stop::after { right: 12%; }
+.board {
+	position: relative; z-index: 1; padding: 3px; background: #e3b23c; border-radius: 2px;
+	box-shadow: 0 0 24px rgba(255, 211, 107, .12);
+}
+.board div {
+	background: #0b2160; padding: 6px 10px 7px; text-align: left; white-space: nowrap;
+	font: 700 12px/1.35 system-ui, sans-serif;
+}
+.board small { display: block; color: #fff; font: inherit; }
+.board b { display: block; color: #ffd36b; font-size: 14px; }
+.board i { display: block; height: 2px; width: 60%; margin-top: 4px; background: rgba(255, 255, 255, .35); }
+@media (max-width: 600px) {
+	.stops { padding: 0 2px; justify-content: space-between; }
+	.stop { height: 92px; }
+	.stop::before, .stop::after { height: 56px; width: 3px; }
+	.board { padding: 2px; }
+	.board div { padding: 4px 6px 5px; font-size: 9px; }
+	.board b { font-size: 10px; }
+	.hero { padding-bottom: 168px; }
+}
+@media (max-width: 380px) {
+	.board div { padding: 3px 4px 4px; font-size: 7.5px; }
+	.board b { font-size: 8.5px; }
+}
 /* Someone late, running after the train (the Flappy Train runner) */
 .chaser { position: absolute; left: 0; bottom: 47px; width: 100%; height: 120px; pointer-events: none; }
 @media (prefers-reduced-motion: reduce) {
@@ -198,6 +233,11 @@ footer p { margin: 6px 0; }
 			<a class="btn" href="#fotos">Zu den Fotos ↓</a>
 			<button class="btn ghost" id="all-zip" hidden>⬇ Alle Fotos (ZIP) <small></small></button>
 		</div>
+	</div>
+	<div class="stops" aria-hidden="true">
+		<div class="stop"><div class="board"><div><small>NJ 420 · 21:09</small><b>Absdorf-Hippersdorf</b><i></i></div></div></div>
+		<div class="stop"><div class="board"><div><small>NJ 420 · 22:05</small><b>Schwarzach-St. Veit</b><i></i></div></div></div>
+		<div class="stop"><div class="board"><div><small>NJ 420 · 22:49</small><b>Attnang-Puchheim</b><i></i></div></div></div>
 	</div>
 	<div class="track" aria-hidden="true"></div>
 	<canvas class="chaser" id="chaser" aria-hidden="true"></canvas>
